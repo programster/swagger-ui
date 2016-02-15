@@ -38,6 +38,21 @@
       } else {
         url = "http://petstore.swagger.io/v2/swagger.json";
       }
+      
+      // Dynamically load the spec from the docker volume
+      var spec = (function () {
+        var spec = null;
+        $.ajax({
+            'async': false,
+            'global': false,
+            'url': window.location + "/spec/swagger-spec.json",
+            'dataType': "json",
+            'success': function (data) {
+                spec = data;
+            }
+        });
+        return spec;
+      })();
 
       // Pre load translate...
       if(window.SwaggerTranslator) {
@@ -45,6 +60,7 @@
       }
       window.swaggerUi = new SwaggerUi({
         url: url,
+        spec: spec,
         dom_id: "swagger-ui-container",
         supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
         onComplete: function(swaggerApi, swaggerUi){

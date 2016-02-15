@@ -19,4 +19,9 @@ WORKDIR /build
 ADD     package.json    /build/package.json
 RUN     npm install
 ADD     .   /build
+
+# Make the spec folder a volume so that the user can
+# dynamically change it.
+VOLUME /build/spec
+
 CMD     ./node_modules/gulp/bin/gulp.js serve
