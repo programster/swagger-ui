@@ -16,7 +16,8 @@ docker kill swagger-ui
 docker rm swagger-ui
 
 docker run \
+-d \
 -p 80:8080 \
 --name swagger-ui \
---volume $HOME/spec:/build/spec \
+--volume $HOME/spec:/build/dist/spec \
 swagger-ui-image
