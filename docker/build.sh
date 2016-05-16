@@ -11,10 +11,17 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cp $DIR/Dockerfile $DIR/../.
 cd $DIR/../
 
-docker build -t swagger-ui-image .
+# Ask the user if they want to use the docker cache
+read -p "Do you want to use a cached build (y/n)? " -n 1 -r
+echo ""   # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    docker build --pull --tag swagger-ui-image .
+else
+    docker build --no-cache --pull --tag swagger-ui-image .
+fi
 
 # cleanup by removing the duplicate Dockerfile.
 rm Dockerfile
-
 
 
